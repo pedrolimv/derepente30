@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Votação ao vivo · De Repente 30 Celebration</title>
+  <meta name="description" content="Vote na apresentação campeã do De Repente 30 Celebration.">
+  <meta name="theme-color" content="#520030">
+  <link rel="icon" href="img/logo-abs30.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,800;1,9..144,700;1,9..144,800&family=Inter+Tight:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/vote.css">
+</head>
+<body class="vote-page">
+  <header class="vbar">
+    <a class="brand" href="index.html" aria-label="Voltar ao site">
+      <span class="b1">Acampa<i>mento</i></span>
+      <span class="b2">de repente <b>30</b></span>
+    </a>
+    <a class="back" href="index.html">← Site</a>
+  </header>
+
+  <main class="vote-main">
+    <section class="vote-hero">
+      <div class="waves" data-waves></div>
+      <span class="status" id="heroStatus" hidden></span>
+      <h1 id="heroTitle">De repente 30 Celebration</h1>
+      <p id="heroDesc">Votação ao vivo da apresentação campeã.</p>
+    </section>
+    <div id="app" aria-live="polite"><div class="state"><div class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><p>Carregando…</p></div></div>
+  </main>
+
+  <div class="react-pad" id="reactPad"></div>
+
+  <div class="confirm-bar" id="confirmBar">
+    <div class="inner"><button class="btn lime block" id="confirmBtn" type="button">Votar</button></div>
+  </div>
+
+  <dialog class="modal" id="confirmDlg">
+    <h3>Confirmar voto?</h3>
+    <p>Você vai votar em <b id="dlgName"></b>. Depois de confirmar não dá para trocar.</p>
+    <div class="row">
+      <button class="btn ghost" type="button" value="cancel" id="dlgCancel">Voltar</button>
+      <button class="btn wine" type="button" id="dlgOk">Confirmar</button>
+    </div>
+  </dialog>
+
+  <script type="module" src="js/decor.js"></script>
+  <script type="module" src="js/votar.js"></script>
+</body>
+</html>

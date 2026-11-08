@@ -1,0 +1,50 @@
+rules_version = '2';
+// Regras de segurança da votação — cole no Firebase Console > Firestore > Regras.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isAdmin() {
+      return signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    // Lista de administradores: só se cria pelo Console do Firebase.
+    match /admins/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    match /polls/{pollId} {
+      // Qualquer pessoa vê as votações (título, opções, status e resultado publicado).
+      allow read: if true;
+      // Só a organização cria, edita, abre, encerra e publica.
+      allow create, update, delete: if isAdmin();
+
+      // Cada voto é um documento com o ID do aparelho (login anônimo) => 1 voto por aparelho.
+      match /votes/{voterId} {
+        function poll() { return get(/databases/$(database)/documents/polls/$(pollId)).data; }
+
+        allow read: if isAdmin() || (signedIn() && request.auth.uid == voterId);
+        allow create: if signedIn()
+          && request.auth.uid == voterId
+          && poll().status == 'open'
+          && request.resource.data.keys().hasOnly(['option', 'at'])
+          && request.resource.data.option in poll().optionIds
+          && request.resource.data.at == request.time;
+        allow update: if false;          // voto não pode ser trocado
+        allow delete: if isAdmin();      // "zerar votos"
+      }
+    }
+
+    // Reações ao vivo (emojis que aparecem no telão).
+    match /reactions/{id} {
+      allow read: if true;
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['e', 'at'])
+        && request.resource.data.e in ['👏', '😂', '🔥', '❤️', '🎉']
+        && request.resource.data.at == request.time;
+      allow update: if false;
+      allow delete: if isAdmin();
+    }
+  }
+}

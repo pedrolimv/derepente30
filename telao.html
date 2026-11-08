@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Telão · De Repente 30 Celebration</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="img/logo-abs30.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,800;1,9..144,700;1,9..144,800&family=Inter+Tight:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/vote.css">
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+  <style>
+    html, body { height: 100%; }
+    body { background: var(--wine-deep) var(--noise); color: #fff; overflow: hidden; font-size: clamp(14px, 1.25vw, 26px); }
+    .tv { position: relative; height: 100vh; display: grid; grid-template-rows: auto 1fr auto; padding: 2.2vw 3vw; gap: 1.5vw; }
+    .tv .waves { position: absolute; right: -8vw; top: -10vw; width: 42vw; aspect-ratio: 1; opacity: .9; pointer-events: none; }
+    .tv .stripes-b { position: absolute; left: 0; right: 0; bottom: 0; height: 3.2vw; opacity: .95; }
+    .tv-top, .tv-body, .tv-foot { position: relative; z-index: 1; }
+    .tv-top { display: flex; justify-content: space-between; align-items: center; }
+    .tv-top .brand .b1 { color: #fff; font-size: 1.5em; } .tv-top .brand .b2 { color: var(--lime); font-size: 1.6em; }
+    .tv-body { display: grid; grid-template-columns: 1.25fr .75fr; gap: 4vw; align-items: center; min-height: 0; }
+    .tv h1 { font-family: var(--f-sans); font-weight: 900; letter-spacing: -.05em; line-height: .9; font-size: 4.6em; margin: .3em 0 .25em; }
+    .tv .desc { font-family: var(--f-cond); font-weight: 300; font-size: 2em; line-height: 1.1; opacity: .9; margin: 0 0 1em; max-width: 26ch; }
+    .tv .count { display: flex; align-items: baseline; gap: .3em; }
+    .tv .count b { font-family: var(--f-serif); font-weight: 800; font-size: 8em; line-height: .85; color: var(--lime); font-variant-numeric: tabular-nums; }
+    .tv .count span { font-family: var(--f-cond); font-size: 2.4em; font-weight: 300; }
+    .qr { background: #fff; color: var(--ink); border-radius: 2vw; padding: 2vw; text-align: center; box-shadow: 0 2vw 4vw -1.5vw rgba(0,0,0,.6); }
+    .qr svg { width: 100%; height: auto; max-height: 52vh; display: block; margin: 0 auto; }
+    .qr p { margin: .8em 0 0; font-weight: 900; font-size: 1.5em; letter-spacing: -.02em; color: var(--wine); }
+    .qr small { display: block; font-size: .8em; color: var(--ink-soft); font-weight: 600; word-break: break-all; }
+    .tv .bars { gap: .5em; }
+    .tv .barrow { background: rgba(255,255,255,.1); padding: .55em .9em; border-radius: .8em; font-size: 1.25em; }
+    .tv .barrow .fill { background: rgba(108, 200, 210, .5); }
+    .tv .barrow.first .fill { background: rgba(85, 223, 90, .65); }
+    .tv .barrow .ct small, .tv .barrow .nm small { color: rgba(255,255,255,.75); }
+    .center { grid-column: 1 / -1; text-align: center; }
+    .champ { font-family: var(--f-serif); font-weight: 800; color: var(--wine); font-size: 5.2em; line-height: .95; --s: .09em; margin: .1em 0 .3em; overflow-wrap: anywhere; }
+    .drum { font-size: 7em; animation: shake .5s infinite; display: inline-block; }
+    @keyframes shake { 0%,100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
+    .tv-foot { display: flex; justify-content: space-between; align-items: center; font-size: .9em; opacity: .75; padding-bottom: 2.2vw; }
+    .tv-foot a { color: #fff; }
+    .fs { border: 0; background: rgba(255,255,255,.12); color: #fff; border-radius: 999px; padding: .4em 1em; cursor: pointer; font-weight: 700; }
+    .kick { font-weight: 900; letter-spacing: .18em; text-transform: uppercase; color: var(--cyan); font-size: .9em; margin: 0; }
+    .tv-body.swap > * { animation: tvIn .7s cubic-bezier(.2,.8,.2,1) both; }
+    .tv-body.swap > *:nth-child(2) { animation-delay: .12s; }
+    @keyframes tvIn { from { opacity: 0; transform: translateY(3vh) scale(.98); } }
+    .count { transform-origin: left center; }
+    .count.bump b { animation: bump .5s cubic-bezier(.3,1.6,.5,1); }
+    @keyframes bump { 40% { transform: scale(1.25); color: #fff; } }
+    .center-flex { justify-content: center; }
+    .compact h1 { font-size: 3.2em; margin: .2em 0; }
+    .compact .desc { font-size: 1.5em; margin-bottom: .4em; }
+    .compact .count b { font-size: 4.6em; }
+    .compact .bars { margin-top: .6em; gap: .4em; }
+    .compact .rbadge { margin-top: .8em; }
+    .rbadge { display: inline-flex; align-items: center; gap: .5em; margin-top: 1.4em; background: rgba(255,255,255,.1); border-radius: 999px; padding: .4em 1.1em .4em .6em; font-size: 1.1em; }
+    .rbadge span { font-size: 1.4em; } .rbadge b { font-size: 1.4em; font-variant-numeric: tabular-nums; } .rbadge small { opacity: .75; }
+    .rbadge.bump span { animation: bump .4s; }
+    .qr { animation: qrPulse 3s ease-in-out infinite; }
+    @keyframes qrPulse { 50% { transform: translateY(-.6vw) rotate(-.6deg); } }
+    .barrow em { font-style: normal; font-weight: 900; color: var(--lime); margin-right: .3em; }
+    .reveal-bars .barrow { opacity: 0; transform: translateX(6vw); transition: opacity .6s, transform .6s cubic-bezier(.2,.8,.2,1); }
+    .reveal-bars .barrow.show { opacity: 1; transform: none; }
+    .reveal-bars .barrow .fill { transition: width 1.1s cubic-bezier(.2,.8,.2,1) .2s; }
+    .champ-box { opacity: 0; transform: scale(.6) rotate(-4deg); transition: opacity .6s, transform .9s cubic-bezier(.3,1.5,.5,1); }
+    .champ-box.show { opacity: 1; transform: none; }
+    .float-emoji.big { text-shadow: 0 .1em .3em rgba(0,0,0,.35); }
+    .tv-body .res-grid { grid-template-columns: 1fr !important; justify-items: center; gap: 1.6vw; }
+    .reveal-bars { width: min(60vw, 100%); }
+    .res-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 4vw; align-items: center; grid-column: 1 / -1; }
+    @media (max-aspect-ratio: 1/1) { .tv-body, .res-grid { grid-template-columns: 1fr; } body { overflow: auto; } .tv { height: auto; min-height: 100vh; } }
+  </style>
+</head>
+<body>
+  <div class="tv">
+    <div class="waves" data-waves></div>
+    <div class="stripes-b" data-stripes="40" data-seed="3"></div>
+    <div class="tv-top">
+      <span class="brand"><span class="b1">Acampa<i>mento</i></span><span class="b2">de repente <b>30</b></span></span>
+      <span class="status" id="st" hidden></span>
+    </div>
+    <div class="tv-body" id="body"></div>
+    <div class="tv-foot"><span>#derepente30 · Aliança Bíblica Santos e São Vicente</span><span id="footR"></span></div>
+  </div>
+  <script type="module" src="js/decor.js"></script>
+  <script type="module" src="js/telao.js"></script>
+</body>
+</html>
