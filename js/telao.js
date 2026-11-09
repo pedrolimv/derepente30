@@ -1,8 +1,8 @@
-import { store, ts, tally } from "./store.js";
+import { store, ts, tally, voteURL as getVoteURL } from "./store.js";
 import { $, $$, esc, confetti, qrSVG, statusLabel, floatEmoji } from "./ui.js";
 
 const fixed = new URLSearchParams(location.search).get("id");
-const voteURL = new URL("votar.html", location.href).href;
+const voteURL = getVoteURL();
 const shortURL = voteURL.replace(/^https?:\/\//, "");
 const S = { polls: [], admin: false, counts: {}, watch: null, watchId: null, revealed: {}, view: "", lastTotal: null, reacts: 0 };
 

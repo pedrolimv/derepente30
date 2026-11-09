@@ -71,6 +71,7 @@ export function floatEmoji(e, x, y, big = false) {
 export function countUp(el, to, ms = 900) {
   const from = +el.dataset.v || 0, t0 = performance.now();
   el.dataset.v = to;
+  if (document.hidden || matchMedia("(prefers-reduced-motion: reduce)").matches) { el.textContent = to; return; }
   const step = t => { const p = Math.min(1, (t - t0) / ms); el.textContent = Math.round(from + (to - from) * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(step); };
   requestAnimationFrame(step);
 }

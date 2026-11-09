@@ -1,9 +1,9 @@
-import { store, isDemo, ts, tally, newOptionId } from "./store.js";
+import { store, isDemo, local, ts, tally, newOptionId, voteURL as getVoteURL } from "./store.js";
 import { $, $$, esc, toast, demoBanner, qrSVG, errMsg, statusLabel } from "./ui.js";
 
 const app = $("#app");
 const S = { user: undefined, polls: [], counts: {}, watchers: {}, form: null, unPolls: null };
-const voteURL = new URL("votar.html", location.href).href;
+const voteURL = getVoteURL();
 const telaoURL = new URL("telao.html", location.href).href;
 
 if (isDemo) demoBanner("No modo demonstração, qualquer e-mail e senha entram.");
@@ -39,12 +39,14 @@ function renderLogin() {
     <p class="eyebrow">Área da organização</p>
     <h1 style="font-size:2rem">Entrar</h1>
     <form id="loginForm">
-      <div class="field"><label for="em">E-mail</label><input class="input" id="em" type="email" autocomplete="username" required></div>
-      <div class="field"><label for="pw">Senha</label><input class="input" id="pw" type="password" autocomplete="current-password" required></div>
+      <div class="field" ${local ? "hidden" : ""}><label for="em">E-mail</label><input class="input" id="em" type="email" autocomplete="username" ${local ? "" : "required"}></div>
+      <div class="field"><label for="pw">${local ? "Senha da organização" : "Senha"}</label><input class="input" id="pw" type="password" autocomplete="current-password" required></div>
       <p class="err" id="loginErr"></p>
       <button class="btn block" type="submit">Entrar</button>
     </form>
-    <p class="hint" style="margin-top:14px">Acesso só para a organização. O login é criado no Firebase (veja PUBLICAR.md).</p></div>`;
+    <p class="hint" style="margin-top:14px">${local
+      ? "Modo local (sem internet): use a senha criada ao iniciar o servidor no notebook."
+      : "Acesso só para a organização. O login é criado no Firebase (veja PUBLICAR.md)."}</p></div>`;
   $("#loginForm").addEventListener("submit", async e => {
     e.preventDefault();
     const btn = e.submitter || $("#loginForm button"); btn.disabled = true; $("#loginErr").textContent = "";

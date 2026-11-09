@@ -1,0 +1,10 @@
+{
+  "dominio": "derepente30.com",
+  "ip": "auto",
+  "portaHttp": 80,
+  "dns": true,
+  "portaDns": 53,
+  "umVotoPorIp": true,
+  "qrUsaIp": false,
+  "senhaAdmin": ""
+}
